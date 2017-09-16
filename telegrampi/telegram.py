@@ -2,6 +2,7 @@ import urllib2, urllib, json, threading
 
 # Modules
 from telegrampi.modules.DownloadFile import DownloadFile
+from telegrampi.modules.WhoIsAtHome import WhoIsAtHome
 
 class Telegram:
 
@@ -33,7 +34,9 @@ class Telegram:
     def initializehandlers(self):
         self.handlers = dict()
 
-        self.handlers['download'] = DownloadFile(self)
+        self.handlers['/download'] = DownloadFile(self)
+        self.handlers['/whoisathome'] = WhoIsAtHome(self)
+
 
     """
     Make a request and return JSON as response.
