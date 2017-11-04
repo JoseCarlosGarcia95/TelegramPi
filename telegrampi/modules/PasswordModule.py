@@ -81,7 +81,8 @@ class PasswordModule(TelegramModule):
 
             if not domain in current_list['data'].keys():
                 current_list['data'][domain] = dict()
-            current_list['data'][domain][user] = 'asd'
+                
+            current_list['data'][domain][user] = password
 
             self.update(self.encryption_key[sender_id], current_list)
             self.telegram.sendMessage(sender_id, 'Passwords correctly updated!')
