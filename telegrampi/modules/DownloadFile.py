@@ -3,6 +3,10 @@ from telegrampi.modules.TelegramModule import TelegramModule
 import threading, urllib2
 class DownloadFile(TelegramModule):
 
+    def __init__(self, Telegram):
+        TelegramModule.__init__(self, Telegram)
+        self.permissionlevel = 7
+        
     """
     Process the telegram response.
     """

@@ -5,6 +5,7 @@ class TelegramModule:
     """
     def __init__(self, Telegram):
         self.telegram = Telegram
+        self.permissionlevel = 0
 
     """
     Call the command handler.

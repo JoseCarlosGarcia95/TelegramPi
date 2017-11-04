@@ -22,7 +22,7 @@ then
     echo -n "Please enter a path for downloading files [ENTER]: "
     read DOWNLOAD_PATH
 
-    CONFIG_INI="[Telegram-Info]\nbot-token=$TELEGRAM_TOKEN\nupdate-offset=0\nsuper_user=$SUPER_USER\n[Modules]\ndownload-file-path=$DOWNLOAD_PATH"
+    CONFIG_INI="[Telegram-Info]\nbot-token=$TELEGRAM_TOKEN\n\nsuper-user=$SUPER_USER\n[Modules]\ndownload-file-path=$DOWNLOAD_PATH"
 
     echo -e "$CONFIG_INI" > config.ini
     chmod 777 config.ini

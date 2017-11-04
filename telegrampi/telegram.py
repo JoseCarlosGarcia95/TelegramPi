@@ -3,7 +3,8 @@ import urllib2, urllib, json, threading
 # Modules
 from telegrampi.modules.DownloadFile import DownloadFile
 from telegrampi.modules.WhoIsAtHome import WhoIsAtHome
-
+from telegrampi.modules.PermissionsModule import PermissionsModule
+from telegrampi.permissions import Permissions
 class Telegram:
 
     """
@@ -12,7 +13,8 @@ class Telegram:
     def __init__(self, config):
         self.config = config
         self.apiurl = "https://api.telegram.org/bot{}/".format(config['Telegram-Info']['bot-token'])
-
+        self.permissions = Permissions(config)
+        
         self.initializehandlers()
 
     """
@@ -36,6 +38,7 @@ class Telegram:
 
         self.handlers['/download'] = DownloadFile(self)
         self.handlers['/whoisathome'] = WhoIsAtHome(self)
+        self.handlers['/permissions'] = PermissionsModule(self)
 
 
     """
@@ -77,10 +80,13 @@ class Telegram:
                     command_body    = message_text[len(command)+1:]
 
                 if command in self.handlers.keys():
-                    try:
-                        self.handlers[command].processCommand(command_body, sender_id)
-                    except Exception as err:
-                        self.sendMessage(sender_id, "error on command {}, {}".format(command, err))
+                    if self.handlers[command].permissionlevel <= self.permissions.permissionLevel(sender):
+                        try:
+                            self.handlers[command].processCommand(command_body, sender_id)
+                        except Exception as err:
+                            self.sendMessage(sender_id, "error on command {}, {}".format(command, err))
+                    else:
+                        self.sendMessage(sender_id, "You don't have enought permissions for executing " + command)    
                 else:
                     self.sendMessage(sender_id, command + " command not found")
 
