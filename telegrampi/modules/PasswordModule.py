@@ -2,6 +2,7 @@ import os
 import json
 import pyaes
 import hashlib
+
 from telegrampi.modules.TelegramModule import TelegramModule
 
 class PasswordModule(TelegramModule):
@@ -53,7 +54,7 @@ class PasswordModule(TelegramModule):
 
     def show(self, arguments, sender_id):
         passwords = self.read(self.encryption_key)
-        output    = "@ Passwords - REMOVE THIS MESSAGE !!!\n"
+        output    = "@ Passwords\n"
 
         if len(arguments) > 1:
             action = str(arguments[1])
@@ -89,7 +90,8 @@ class PasswordModule(TelegramModule):
                         if user == searchuser:
                             output += "| " + domain + " | " + user + " | " + passwords['data'][domain][user] + "\n"
                             
-        self.telegram.sendMessage(sender_id, output)
+        message = self.telegram.sendMessage(sender_id, output)
+        self.telegram.removeMessageAfter(sender_id, str(message['result']['message_id']), 60)
         
     def list(self, arguments, sender_id):
         passwords = self.read(self.encryption_key)

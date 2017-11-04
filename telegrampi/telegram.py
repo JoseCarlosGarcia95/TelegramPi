@@ -1,4 +1,4 @@
-import urllib2, urllib, json, threading
+import urllib2, urllib, json, threading, time
 
 # Modules
 from telegrampi.modules.DownloadFile import DownloadFile
@@ -115,4 +115,16 @@ class Telegram:
     Send a message to user_id.
     """
     def sendMessage(self, user_id, message):
-        self.request('sendMessage', {'chat_id' : user_id, 'text': message})
+        return self.requestjson('sendMessage', {'chat_id' : user_id, 'text': message})
+
+    def removeMessage(self, user_id, messageId):
+        return self.requestjson('deleteMessage', {'chat_id' : user_id, 'message_id' : messageId})
+
+    def _removeMessageAfter(self, user_id, messageId, seconds):
+        time.sleep(seconds)
+        self.removeMessage(user_id, messageId)
+        
+    def removeMessageAfter(self, user_id, messageId, seconds):
+        th = threading.Thread(target=self._removeMessageAfter, args=(user_id, messageId, seconds))
+        th.start()
+        th.join()
