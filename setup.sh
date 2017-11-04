@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # Packages needed for TelegramPi
-PACKAGES=("python-configparser" "python-nmap" "nmap")
+PACKAGES=("python-configparser" "python-nmap" "nmap" "python-pyaes")
 
 for PACKAGE in ${PACKAGES[*]}; do
     if [ $(dpkg-query -W -f='${Status}' $PACKAGE 2>/dev/null | grep -c "ok installed") -eq 0 ];

@@ -4,6 +4,7 @@ import urllib2, urllib, json, threading
 from telegrampi.modules.DownloadFile import DownloadFile
 from telegrampi.modules.WhoIsAtHome import WhoIsAtHome
 from telegrampi.modules.PermissionsModule import PermissionsModule
+from telegrampi.modules.PasswordModule import PasswordModule
 from telegrampi.permissions import Permissions
 class Telegram:
 
@@ -39,6 +40,7 @@ class Telegram:
         self.handlers['/download'] = DownloadFile(self)
         self.handlers['/whoisathome'] = WhoIsAtHome(self)
         self.handlers['/permissions'] = PermissionsModule(self)
+        self.handlers['/password']    = PasswordModule(self)
 
 
     """
