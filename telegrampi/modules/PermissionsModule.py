@@ -1,7 +1,11 @@
 from telegrampi.modules.TelegramModule import TelegramModule
 
 class PermissionsModule(TelegramModule):
-
+    # HELPKEY: permissions
+    # HELP: Permission manager.
+    # HELP: Usage:
+    # HELP:  |_ /permissions - List users and permissions.
+    # HELP:  |_ /permissions update <username> <level> - Update <user> with <level>
     def __init__(self, Telegram):
         TelegramModule.__init__(self, Telegram)
         self.permissionlevel = 10
@@ -25,6 +29,7 @@ class PermissionsModule(TelegramModule):
         else:
             actions['list'](arguments, sender_id)
 
+    
     def listusers(self, arguments, sender_id):
         output   = "| Users\n"
 

@@ -3,6 +3,9 @@ from telegrampi.modules.TelegramModule import TelegramModule
 import threading, urllib2
 class DownloadFile(TelegramModule):
 
+    # HELPKEY: download
+    # HELP: Download manager for a personal telegram bot.
+    # HELP: Usage: 
     def __init__(self, Telegram):
         TelegramModule.__init__(self, Telegram)
         self.permissionlevel = 7
@@ -33,6 +36,7 @@ class DownloadFile(TelegramModule):
             self.downloadfile(action, sender_id)
 
 
+    # HELP:  |_ /download cancel - Cancel the current download.
     """
     Cancel the current download.
     """
@@ -41,6 +45,7 @@ class DownloadFile(TelegramModule):
             self.telegram.sendMessage(sender_id, 'Cancelling the current download')
             self.downloading = False
 
+    # HELP:  |_ /download cookies <cookie> - Set <cookie> as default cookie.
     """
     Set cookies if you want to download an authenticated download.
     """
@@ -50,6 +55,7 @@ class DownloadFile(TelegramModule):
         else:
             self.cookies = arguments[1]
 
+    # HELP:  |_ /download browser <browser> - Set <browser> as default browser.
     """
     If you need a specify browser.
     """
@@ -73,6 +79,7 @@ class DownloadFile(TelegramModule):
 
         return filename
 
+    # HELP:  |_ /download <url> - Download <url>
     """
     Download file by url.
     """

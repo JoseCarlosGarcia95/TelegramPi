@@ -8,7 +8,11 @@ import string
 from telegrampi.modules.TelegramModule import TelegramModule
 
 class PasswordModule(TelegramModule):
-
+    
+    # HELPKEY: password
+    # HELP: Password manager for a personal telegram bot.
+    # HELP: Usage:
+    # HELP:  | /password - List every saved password without show the password.
     def __init__(self, Telegram):
         TelegramModule.__init__(self, Telegram)
         self.permissionlevel = 7
@@ -39,6 +43,7 @@ class PasswordModule(TelegramModule):
             else:
                 actions['list'](arguments, sender_id)
 
+    # HELP:  | /password generate - Generate a secure password, and after 1 minute, delete it.
     def generate(self, arguments, sender_id):
         def random_password(length=10):
             chars = string.ascii_uppercase + string.digits + string.ascii_lowercase + '_-#@$&+'
@@ -50,6 +55,7 @@ class PasswordModule(TelegramModule):
         message = self.telegram.sendMessage(sender_id, 'Here you\'ve got a secure password: ' + random_password())
         self.telegram.removeMessageAfter(sender_id, str(message['result']['message_id']), 60)
 
+    # HELP:  | /password remove <domain> <user> - Remove <user> from <domain>    
     def remove(self, arguments, sender_id):
         if len(arguments) != 3:
             self.telegram.sendMessage(sender_id, 'Please enter: /password update domain user password')
@@ -68,7 +74,8 @@ class PasswordModule(TelegramModule):
 
             self.update(self.encryption_key[sender_id], current_list)
             self.telegram.sendMessage(sender_id, user + ' sucesfully deleted from ' + domain)
-    
+
+    # HELP:  | /password update <domain> <user> <password> - Update or create <user> in <domain> with <password>    
     def updatedb(self, arguments, sender_id):
         if len(arguments) != 4:
             self.telegram.sendMessage(sender_id, 'Please enter: /password update domain user password')
@@ -87,6 +94,7 @@ class PasswordModule(TelegramModule):
             self.update(self.encryption_key[sender_id], current_list)
             self.telegram.sendMessage(sender_id, 'Passwords correctly updated!')
 
+    # HELP:  | /password show (all|domain|user) (<user>|<domain>) - Show password passwords and then, delete it after 1 minute.
     def show(self, arguments, sender_id):
         passwords = self.read(self.encryption_key[sender_id])
         output    = "@ Passwords - (This message will be autoremoved)\n"
@@ -100,6 +108,7 @@ class PasswordModule(TelegramModule):
             for domain in passwords['data'].keys():
                 for user in passwords['data'][domain].keys():
                     output += "| " + domain + " | " + user + " | " + passwords['data'][domain][user] + "\n"
+                    
         elif action == 'domain':
             if len(arguments) != 3:
                 self.telegram.sendMessage(sender_id, 'Please enter: /password list domain <domain>')
@@ -127,7 +136,8 @@ class PasswordModule(TelegramModule):
                             
         message = self.telegram.sendMessage(sender_id, output)
         self.telegram.removeMessageAfter(sender_id, str(message['result']['message_id']), 60)
-        
+
+    # HELP:  | /password list (all|domain|user) (<user>|<domain>) - List users without show the password.
     def list(self, arguments, sender_id):
         passwords = self.read(self.encryption_key[sender_id])
         output    = "@ Passwords\n"
@@ -141,6 +151,7 @@ class PasswordModule(TelegramModule):
             for domain in passwords['data'].keys():
                 for user in passwords['data'][domain].keys():
                     output += "| " + domain + " | " + user + " | ********\n"
+                    
         elif action == 'domain':
             if len(arguments) != 3:
                 self.telegram.sendMessage(sender_id, 'Please enter: /password list domain <domain>')
@@ -184,7 +195,7 @@ class PasswordModule(TelegramModule):
         password_file.close()
 
         return json.loads(deciphertext)
-    
+    # HELP:  | /password <encryption-key> - In the first execution, initialize your <encryption-key>
     def setupencryption(self, arguments, sender_id):
         password = arguments[0]
                    

@@ -5,6 +5,8 @@ from telegrampi.modules.DownloadFile import DownloadFile
 from telegrampi.modules.WhoIsAtHome import WhoIsAtHome
 from telegrampi.modules.PermissionsModule import PermissionsModule
 from telegrampi.modules.PasswordModule import PasswordModule
+from telegrampi.modules.HelpModule import HelpModule
+
 from telegrampi.permissions import Permissions
 class Telegram:
 
@@ -41,6 +43,7 @@ class Telegram:
         self.handlers['/whoisathome'] = WhoIsAtHome(self)
         self.handlers['/permissions'] = PermissionsModule(self)
         self.handlers['/password']    = PasswordModule(self)
+        self.handlers['/help']        = HelpModule(self)
 
 
     """
@@ -90,7 +93,7 @@ class Telegram:
                     else:
                         self.sendMessage(sender_id, "You don't have enought permissions for executing " + command)    
                 else:
-                    self.sendMessage(sender_id, command + " command not found")
+                    self.sendMessage(sender_id, command + " command not found, execute /help for help.")
 
                 # Update offset
                 self.offset = item['update_id'] + 1

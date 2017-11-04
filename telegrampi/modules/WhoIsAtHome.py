@@ -8,7 +8,11 @@ class WhoIsAtHome(TelegramModule):
     def __init__(self, Telegram):
         TelegramModule.__init__(self, Telegram)
         self.permissionlevel = 7
-        
+
+    # HELPKEY: whoisathome
+    # HELP: Show who is at home right now.
+    # HELP: Usage:
+    # HELP:  |_ /whoisathome - List connected devices to router
     """
     Process the telegram response.
     """
@@ -66,6 +70,7 @@ class WhoIsAtHome(TelegramModule):
 
         self.telegram.sendMessage(sender_id, output)
 
+    # HELP:  |_ /whoisathome update <mac> <user> - Update a Mac Address and add it as known device.
     def update(self, arguments, sender_id):
         if len(arguments) < 3:
             self.telegram.sendMessage(sender_id, '3 arguments needed')
