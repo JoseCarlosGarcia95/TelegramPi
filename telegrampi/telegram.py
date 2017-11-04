@@ -119,12 +119,6 @@ class Telegram:
 
     def removeMessage(self, user_id, messageId):
         return self.requestjson('deleteMessage', {'chat_id' : user_id, 'message_id' : messageId})
-
-    def _removeMessageAfter(self, user_id, messageId, seconds):
-        time.sleep(seconds)
-        self.removeMessage(user_id, messageId)
         
-    def removeMessageAfter(self, user_id, messageId, seconds):
-        th = threading.Thread(target=self._removeMessageAfter, args=(user_id, messageId, seconds))
-        th.start()
-        th.join()
+    def removeMessageAfter(self, user_id, message_id, seconds):
+        threading.Timer(seconds, self.removeMessage, [user_id, message_id], {}).start()
